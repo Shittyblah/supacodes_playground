@@ -1,100 +1,199 @@
-## 🔗 Table of Contents
+## 🌍 Table of Contents
 
 - [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Welcome Message Endpoint](#welcome-message-endpoint)
-  - [Get Users Endpoint](#get-users-endpoint)
-- [Contributing](#contributing)
-- [License](#license)
+ - [Overview](#overview)
+ - [Technologies](#technologies)
+- [User Management](#user-management)
+ - [Getting Users](#get-users)
+ - [Getting a User by ID](#get-user-by-id)
+ - [Creating a User](#create-user)
+ - [Updating a User](#update-user)
+ - [Deleting a User](#delete-user)
+- [Server](#server)
+ - [Starting the Server](#starting-the-server)
+ - [Port Configuration](#port-configuration)
+- [Endpoints](#endpoints)
+ - [Welcome Message Endpoint](#welcome-message-endpoint)
+ - [Get Users Endpoint](#get-users-endpoint)
 
 ## 💡 Introduction
 
-This documentation provides a detailed overview of a simple TypeScript Express API. This API offers two endpoints: one for displaying a welcome message and another for retrieving a list of users. It's designed to be user-friendly and extensible, allowing you to effortlessly integrate your custom endpoints and functionalities.
+### Overview
 
-## 🧰 Prerequisites
+This TypeScript Express API is a straightforward and scalable RESTful API that enables developers to manage users in their applications. It provides endpoints for creating, reading, updating, and deleting users.
 
-To utilize this API, you must have the following prerequisites installed:
+### Technologies
 
-- Node.js
+- Express.js
 - TypeScript
+- Node.js
 
-## 📥 Installation
+## 👥 User Management
 
-Installing the API is a breeze. Simply execute the following command:
+### Getting Users
 
-```sh
-npm install
+**Description:**
+Retrieves a list of all users.
+
+**Endpoint:**
 ```
-
-## 🏃‍♂️ Usage
-
-### Welcome Message Endpoint
-
-The welcome message endpoint returns a simple welcome message.
-
-```typescript
-app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to the simple TypeScript Express API!');
-});
+GET /users
 ```
 
 **Example Usage:**
-
-To access the welcome message, send a GET request to the root URL:
-
-```sh
-curl http://localhost:3000/
+```typescript
+fetch('/users')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
 ```
 
-**Response:**
+### Getting a User by ID
 
-The response will be a simple welcome message:
+**Description:**
+Retrieves a specific user by their ID.
 
+**Endpoint:**
 ```
-Welcome to the simple TypeScript Express API!
+GET /users/:id
+```
+
+**Example Usage:**
+```typescript
+fetch('/users/1')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+```
+
+### Creating a User
+
+**Description:**
+Creates a new user.
+
+**Endpoint:**
+```
+POST /users
+```
+
+**Example Usage:**
+```typescript
+fetch('/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ name: 'Jane Doe' }),
+})
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+```
+
+### Updating a User
+
+**Description:**
+Updates an existing user by their ID.
+
+**Endpoint:**
+```
+PUT /users/:id
+```
+
+**Example Usage:**
+```typescript
+fetch('/users/1', {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ name: 'John Smith' }),
+})
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+```
+
+### Deleting a User
+
+**Description:**
+Deletes an existing user by their ID.
+
+**Endpoint:**
+```
+DELETE /users/:id
+```
+
+**Example Usage:**
+```typescript
+fetch('/users/1', {
+  method: 'DELETE',
+})
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+```
+
+## 🌐 Server
+
+### Starting the Server
+
+**Description:**
+Starts the server and listens for requests.
+
+**Endpoint:**
+```
+PORT=3000 node index.js
+```
+
+### Port Configuration
+
+**Description:**
+The port on which the server listens for requests is configurable through the `PORT` environment variable.
+
+**Default Port:**
+3000
+
+**Endpoint:**
+```
+export PORT=3000 # Sets the port to 3000
+node index.js
+```
+
+## 👋 Endpoints
+
+### Welcome Message Endpoint
+
+**Description:**
+Displays a welcome message.
+
+**Endpoint:**
+```
+GET /
+```
+
+**Example Usage:**
+```typescript
+fetch('/')
+  .then(res => res.text())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
 ```
 
 ### Get Users Endpoint
 
-The get users endpoint provides a list of users.
+**Description:**
+Retrieves a list of all users.
 
-```typescript
-app.get('/users', (req: Request, res: Response) => {
-  res.json(users);
-});
+**Endpoint:**
+```
+GET /users
 ```
 
 **Example Usage:**
-
-To retrieve the list of users, send a GET request to the '/users' endpoint:
-
-```sh
-curl http://localhost:3000/users
+```typescript
+fetch('/users')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
 ```
-
-**Response:**
-
-The response will be a JSON array containing the list of users:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "John Doe"
-  },
-  {
-    "id": 2,
-    "name": "Jane Doe"
-  }
-]
-```
-
-## 🤝 Contributing
-
-We welcome contributions to enhance this API. Before submitting a pull request, please take the time to review our [contributing guidelines](CONTRIBUTING.md).
-
-## 📄 License
-
-This project is distributed under the MIT License.
