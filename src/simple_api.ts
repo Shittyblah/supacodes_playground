@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 // Define a list of users
 const users = [
   { id: 1, name: 'John Doe' },
-  { id: 2, name: 'Peter' },
+  { id: 2, name: 'Peter Parker' },
 ];
 
 // Welcome message endpoint
