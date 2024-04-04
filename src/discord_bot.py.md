@@ -1,103 +1,94 @@
-## Discord Bot Documentation
+## Discord Bot Documentation :gear:
 
-## Table of Contents
+### Table of Contents
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Basic Usage](#basic-usage)
-  - [Commands](#commands)
-- [Advanced Usage](#advanced-usage)
-  - [Customizing the Bot](#customizing-the-bot)
-- [Reference](#reference)
-  - [Modules](#modules)
-  - [Functions](#functions)
+- [Commands](#commands)
+- [Event Listeners](#event-listeners)
+- [Error Handling](#error-handling)
+- [Best Practices](#best-practices)
+- [Example Usage](#example-usage)
 
 ### Introduction
 
-This document provides a comprehensive guide to using the Discord bot. The bot is designed to interact with users on the Discord platform, responding to commands and providing information.
+This documentation provides an overview of the Discord bot's functionality, setup, and usage. The bot is designed to interact with Discord users through commands and handle various events within the Discord server. It utilizes the Discord.py library for Python to establish a connection with the Discord API.
 
 ### Getting Started
 
-#### Prerequisites
+**Prerequisites:**
+1. Discord account
+2. Discord server
+3. Python 3.6 or later
+4. pip
+5. .env file
 
-To use the bot, you will need the following:
+**Setup:**
+1. Install Python and Discord.py using pip:
+   - `pip install discord`
 
-- A Discord account
-- A Discord server to invite the bot to
-- Python 3.6 or later
-- Pipenv
+2. Create a `.env` file in the same directory as your Python script and add the following line (replace `YOUR_TOKEN` with your Discord bot's token):
+   - `DISCORD_TOKEN=YOUR_TOKEN`
 
-#### Installation
+3. Obtain your Discord bot's token by following these steps:
+   - Go to the Discord developer portal https://discord.com/developers/applications/
+   - Create a new application or select an existing one
+   - Navigate to the "Bot" tab
+   - Click the "Add Bot" button and create a new bot
+   - Copy the token generated for your bot and store it securely
 
-1. Clone the bot's repository to your local machine:
-```
-git clone https://github.com/your-username/discord-bot.git
-```
-2. Change into the bot's directory:
-```
-cd discord-bot
-```
-3. Install the required Python packages:
-```
-pipenv install
-```
+### Commands
 
-### Basic Usage
-
-#### Commands
-
-The bot currently supports the following commands:
+The Discord bot supports the following commands:
 
 | Command | Description |
 |---|---|
 | `!hello` | Responds with "Hi there!" |
-| `!help` | Displays a list of all available commands |
-| `!info` | Displays information about the bot |
 
-To use a command, simply type it into the chat window and press Enter.
+### Event Listeners
 
-### Advanced Usage
+The Discord bot listens for the following events:
 
-#### Customizing the Bot
+| Event | Description |
+|---|---|
+| `on_ready()` | Triggered when the bot connects to the Discord server |
+| `on_message()` | Triggered when a message is sent in a channel where the bot is present |
 
-You can customize the bot to suit your needs by editing the following files:
+### Error Handling
 
-- `config.py`: Contains configuration settings for the bot, such as the bot's token and prefix.
-- `commands.py`: Contains the code for the bot's commands.
+To ensure robust operation, the bot includes error handling capabilities. Unhandled exceptions are caught and logged, and the bot automatically attempts to reconnect to the Discord server if the connection is lost.
 
-### Reference
+### Best Practices
 
-#### Modules
+When using the Discord bot, it is recommended to follow these best practices:
 
-The bot uses the following Python modules:
-
-- `discord`: Provides the core functionality for interacting with the Discord API.
-- `dotenv`: Loads environment variables from a `.env` file.
-- `pipenv`: Manages Python packages.
-
-#### Functions
-
-The bot defines the following functions:
-
-- `on_ready()`: Called when the bot is ready to receive events.
-- `on_message(message)`: Called when a message is received in a channel that the bot is in.
+- Use commands wisely and avoid spamming the chat.
+- Respect other users and refrain from using offensive or inappropriate language.
+- Report any bugs or issues to the designated support channel or contact the bot's developers.
 
 ### Example Usage
 
 ```python
 import discord
-from discord.ext import commands
+from dotenv import load_dotenv
 
-bot = commands.Bot(command_prefix='!')
+load_dotenv()
 
-@bot.event
-async def on_ready():
-    print(f'{bot.user} has connected to Discord!')
+TOKEN = os.getenv('DISCORD_TOKEN')
 
-@bot.command()
-async def hello(ctx):
-    await ctx.send('Hi there!')
+client = discord.Client()
 
-bot.run('your_bot_token')
+@client.event
+async def on_message(message):
+    if message.content.startswith('!hello'):
+        await message.channel.send('Hi there!')
+
+client.run(TOKEN)
 ```
+
+1. Import the necessary modules.
+2. Load environment variables from a `.env` file.
+3. Retrieve the Discord bot's token from the environment variables.
+4. Create a Discord client instance.
+5. Define an event listener for message events.
+6. Check if the message content starts with "!hello" and respond with "Hi there!" if it does.
+7. Start the Discord bot by running the `client.run()` method.
